@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  process-invoice-django:
+    image: python:3.11-rc-bullseye
+    container_name: process-invoice-django
+    working_dir: /usr/src/app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./ProcessInvoice:/usr/src/app
+    command: >
+      bash -c "
+        pip install --upgrade pip &&
+        pip install -r requirements.txt &&
+        python manage.py migrate &&
+        python manage.py createsuperuser --no-input &&
+        python manage.py runserver 0:5000
+      "
+    environment:
+      DEBUG: True
+      DJANGO_SUPERUSER_USERNAME: admin
+      DJANGO_SUPERUSER_PASSWORD: admin
+      DJANGO_SUPERUSER_EMAIL: admin@admin.com
+      DATABASE_URL: "postgres://postgres:password@process-invoice-postgres:5432/postgres"
+      
+  process-invoice-postgres:
+    image: postgres
+    container_name: process-invoice-postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password

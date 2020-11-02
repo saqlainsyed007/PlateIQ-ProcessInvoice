@@ -1,0 +1,8 @@
+Django==3.2.16
+django-extensions==2.2.9
+djangorestframework==3.14.0
+ipdb==0.13.2
+ipython==7.14.0
+django-dynamic-model-validation==1.0.0
+dj-database-url==1.0.0
+psycopg2==2.9.3
