@@ -13,7 +13,6 @@ services:
         pip install --upgrade pip &&
         pip install -r requirements.txt &&
         python manage.py migrate &&
-        python manage.py createsuperuser --no-input &&
         python manage.py runserver 0:5000
       "
     environment:
@@ -22,6 +21,8 @@ services:
       DJANGO_SUPERUSER_PASSWORD: admin
       DJANGO_SUPERUSER_EMAIL: admin@admin.com
       DATABASE_URL: "postgres://postgres:password@process-invoice-postgres:5432/postgres"
+    depends_on:
+      - process-invoice-postgres
       
   process-invoice-postgres:
     image: postgres
@@ -29,3 +30,5 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: password
+
+# python manage.py createsuperuser --no-input &&
